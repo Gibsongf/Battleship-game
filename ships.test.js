@@ -1,2 +1,3 @@
-import { isSunk, hit, shipsFactory } from 'Battleship-game/ships.js'
+import { isSunk, hit, shipsFactory } from './ships.js'
 
+test.todo('it works')

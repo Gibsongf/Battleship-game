@@ -46,7 +46,7 @@ function shipsFactory(type) {
 	};
 }
 export { isSunk, hit, shipsFactory };
-console.log(shipsFactory("Destroyer"));
+/* console.log(shipsFactory("Destroyer")); */
 /* 
 
 */
