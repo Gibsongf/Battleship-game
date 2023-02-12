@@ -19,17 +19,17 @@ isSunk() should be a
 function that calculates 
 it based on their length and the number of ‘hits’. */
 const isSunk = (ship) => {
-	if (ship.hit === ship.length) {
+	if (ship.hits === ship.length) {
 		return true;
 	} else {
 		return false;
 	}
 };
+
 const hit = (ship) => {
-	return {
-		hits: ship.hits + 1,
-	};
+	return ship.hits += 1;
 };
+
 function shipsFactory(type) {
 	const shipType = {
 		Carrier: 5,
