@@ -18,34 +18,57 @@ the number of ‘hits’ in your ship.
 isSunk() should be a 
 function that calculates 
 it based on their length and the number of ‘hits’. */
-const isSunk = (ship) => {
-	if (ship.hits === ship.length) {
-		return true;
-	} else {
-		return false;
-	}
-};
 
-const hit = (ship) => {
+/* const hit = (ship) => {
+	console.log(this)
 	return ship.hits += 1;
-};
+}; */
 
-function shipsFactory(type) {
-	const shipType = {
-		Carrier: 5,
-		Battleship: 4,
-		Destroyer: 3,
-		Submarine: 3,
-		"Patrol Boat": 2,
-	};
+function shipsFactory(type, shipLength) {
 	return {
 		name: type,
-		length: shipType[type],
+		length: shipLength,
 		hits: 0,
 		sunk: false,
+		hit: "",
+		isSunk: "",
 	};
 }
-export { isSunk, hit, shipsFactory };
+/* let carrier = shipsFactory('Carrier', 5);
+let battleship = shipsFactory("Battleship", 4);
+let destroyer = shipsFactory("Destroyer", 3);
+let submarine  = shipsFactory("Submarine", 3);
+let patrolBoat = shipsFactory("Patrol Boat", 2); */
+
+function completeShip(name) {
+	let ship = shipsFactory(String(name), shipType[name]);
+
+	ship.hit = () => {
+		return (ship.hits += 1);
+	};
+
+	ship.isSunk = () => {
+		if (ship.hits === ship.length) {
+			ship.sunk = true;
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	return ship;
+}
+
+const shipType = {
+	Carrier: 5,
+	Battleship: 4,
+	Destroyer: 3,
+	Submarine: 3,
+	"Patrol Boat": 2,
+};
+let allShips = Object.keys(shipType).map(completeShip);
+
+export { completeShip };
 /* console.log(shipsFactory("Destroyer")); */
 /* 
 
