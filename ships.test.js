@@ -1,9 +1,13 @@
-import { isSunk, hit, shipsFactory } from './ships.js'
+import { completeShip} from './ships.js'
 
-const aShip = shipsFactory('Carrier');
+const aShip = completeShip('Submarine');
 test('Increase of hit number',() => {
-    expect(hit(aShip)).toBe(aShip.hits)
+    expect(aShip.hit()).toBe(1)
+    expect(aShip.hit()).toBe(2)
+    expect(aShip.hit()).toBe(3)
+
 })
 test('Check if the ship was sunk',() => {
-    expect(isSunk(aShip)).toBe(false)
+    expect(aShip.isSunk()).toBe(true)
+    expect(aShip.sunk).toBe(true)
 })

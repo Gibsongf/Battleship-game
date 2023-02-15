@@ -22,6 +22,7 @@ should be able to report whether or not all of their ships have been sunk. */
 function objBoard() {
     let column = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
     let board = {};
+
     const arr = (r) => {
         r++;
         let ar = [];
@@ -30,14 +31,31 @@ function objBoard() {
         }
         board[r] = ar;
     };
+
+	function divideBoard(board){
+		let p1Board = {} ;
+		let p2Board = {} ;
+		Object.keys(board).slice(0,5).forEach(k => p1Board[k] = board[k])
+		Object.keys(board).slice(5).forEach(k => p2Board[k] = board[k])
+		return [p1Board,p2Board]
+		
+	}
+	
     board.columns = column;
     Array.from(column.keys()).forEach((r) => arr(r));
-    return board;
+    let halfs = divideBoard(board)
+	return {board,p1Board:halfs[0],p2Board:halfs[1]};
 }
+/* should be able to place ships at specific coordinates
+by calling the ship factory function. */
+/* user will click in a board location then the ship image 
+will show default position being horizontal */
+function placeShip(horizontal,vertical,boardPart){
 
+}
 function gameBoard() {
 	let board = objBoard();
-    
+
 	
 }
 console.log(gameBoard());

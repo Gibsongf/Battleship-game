@@ -1,29 +1,3 @@
-/* 
-Begin your app by creating the Ship factory function.
-
-Your ‘ships’ will be objects that include their length,
-the number of times they’ve been hit and whether
-or not they’ve been sunk.
-
-REMEMBER you only have to test
-your object’s public interface.
- 
-Only methods or properties that are
-used outside of your ‘ship’ object need unit tests.
-
-Ships should have a hit()
-function that increases 
-the number of ‘hits’ in your ship.
-
-isSunk() should be a 
-function that calculates 
-it based on their length and the number of ‘hits’. */
-
-/* const hit = (ship) => {
-	console.log(this)
-	return ship.hits += 1;
-}; */
-
 function shipsFactory(type, shipLength) {
 	return {
 		name: type,
@@ -32,13 +6,9 @@ function shipsFactory(type, shipLength) {
 		sunk: false,
 		hit: "",
 		isSunk: "",
+		position: "horizontal",
 	};
 }
-/* let carrier = shipsFactory('Carrier', 5);
-let battleship = shipsFactory("Battleship", 4);
-let destroyer = shipsFactory("Destroyer", 3);
-let submarine  = shipsFactory("Submarine", 3);
-let patrolBoat = shipsFactory("Patrol Boat", 2); */
 
 function completeShip(name) {
 	let ship = shipsFactory(String(name), shipType[name]);
@@ -59,6 +29,36 @@ function completeShip(name) {
 	return ship;
 }
 
+function objBoard() {
+	let column = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+	let board = {};
+	const arr = (r) => {
+		let ar = [];
+		for (let i = 0; i <= column.length - 1; i++) {
+			ar.push(" ");
+		}
+		board[r] = ar;
+	};
+	function divideBoard(board) {
+		let p1Board = {};
+		let p2Board = {};
+		Object.keys(board)
+			.slice(0, 5)
+			.forEach((k) => (p1Board[k] = board[k]));
+		Object.keys(board)
+			.slice(5)
+			.forEach((k) => (p2Board[k] = board[k]));
+		/* p1Board.columns = board.columns.slice(0,5)
+		p2Board.columns = board.columns.slice(5) */
+		return [p1Board, p2Board];
+	}
+
+	board.columns = column;
+	Array.from(column.keys()).forEach((r) => arr(r));
+	let halfs = divideBoard(board);
+	return { board, p1Board: halfs[0], p2Board: halfs[1] };
+}
+
 const shipType = {
 	Carrier: 5,
 	Battleship: 4,
@@ -68,8 +68,70 @@ const shipType = {
 };
 let allShips = Object.keys(shipType).map(completeShip);
 
-export { completeShip };
-/* console.log(shipsFactory("Destroyer")); */
-/* 
+let battleship = shipsFactory("Patrol Boat", 2);
+/* should be able to place ships at specific coordinates
+by calling the ship factory function. */
 
-*/
+class GameBoard {
+	constructor() {
+		this.gameObj = objBoard();
+		console.log(this.gameObj);
+	}
+	/* 
+	the user will have a order of the ship from the bigger to the smallest and 
+	then click in a location that wanted to place that boat */
+	placeShip(ship) {
+		let coordinates = [
+			7,
+			this.gameObj.board.columns.indexOf("c"),
+		]; /* click location (colum a/j row 1/10) */
+		if (this.gameObj.board[coordinates[0]][coordinates[1]] !== " ") {
+			return "POSITION ALREADY USED";
+		}
+		console.log(this.getCoord(coordinates, ship));
+	}
+	getCoord(coordinates, ship) {
+		let minusV = this.getMinusCoord(coordinates[0], ship);/* row */
+		let minusH = this.getMinusCoord(coordinates[1], ship);/* col */
+		let plusV = this.getPlusCoord(coordinates[0], ship);/* row */
+		let plusH = this.getPlusCoord(coordinates[1], ship);/* col */
+
+		return { minusV, minusH, plusV, plusH };
+	}
+
+	getPlusCoord(coordinates, ship, indx = 0, lst = []) {
+		if (indx >= ship.length) {
+			return;
+		}
+		const newC = coordinates + indx;
+		if (newC > 9) {
+			return null;
+		}
+		lst.push(newC);
+		this.getPlusCoord(coordinates, ship, indx + 1, lst);
+		console.log(lst.length, ship.length);
+		if (lst.length != ship.length) {
+			return null;
+		}
+		return lst;
+	}
+	getMinusCoord(coordinates, ship, indx = 0, lst = []) {
+		if (indx >= ship.length) {
+			return;
+		}
+		const newC = coordinates - indx;
+		if (newC < 0) {
+			return null;
+		}
+		lst.push(newC);
+		this.getMinusCoord(coordinates, ship, indx + 1, lst);
+		console.log(lst.length, ship.length);
+		if (lst.length != ship.length) {
+			return null;
+		}
+		return lst;
+	}
+}
+const t = new GameBoard();
+t.placeShip(battleship);
+/* export { completeShip }; */
