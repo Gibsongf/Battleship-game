@@ -1,5 +1,5 @@
-import GameBoard from "./gameBoard";
-import { completeShip } from "./ships.js";
+import GameBoard from "../src/gameBoard.js";
+import { completeShip } from "../src/ships.js";
 
 const aShip = completeShip("Submarine");
 const board = new GameBoard();

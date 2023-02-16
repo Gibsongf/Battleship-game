@@ -1,4 +1,4 @@
-import { completeShip} from './ships.js'
+import { completeShip} from "../src/ships.js";
 
 const aShip = completeShip('Submarine');
 test.todo('')
