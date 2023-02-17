@@ -22,33 +22,22 @@ function objBoard() {
 		board[r] = ar;
 	};
 
-	function divideBoard(board) {
-		let p1Board = {};
-		let p2Board = {};
-		Object.keys(board)
-			.slice(0, 5)
-			.forEach((k) => (p1Board[k] = board[k]));
-		Object.keys(board)
-			.slice(5)
-			.forEach((k) => (p2Board[k] = board[k]));
-		return [p1Board, p2Board];
-	}
+
 
 	board.columns = column;
 	Array.from(column.keys()).forEach((r) => arr(r));
-	let halfs = divideBoard(board);
-	return { board, p1Board: halfs[0], p2Board: halfs[1] };
+	return board;
 }
 /* should be able to place ships at specific coordinates
 by calling the ship factory function. */
 /* user will click in a board location then the ship image 
 will show default position being horizontal */
+/* IS ONE FUCKING BOARD FOR PLAYER FUCK */
 class GameBoard {
 	constructor() {
-		this.gameObj = objBoard();
+		this.board = objBoard();
 		/* instead of shot we save the coordinates of each ship  */
-		this.p1ShipLocation = [];
-		this.p2ShipLocation = [];
+		this.playerShipLocation = [];
 		this.shotsLocation = [];
 	}
 	/* should be able to report whether or not all of their ships have been sunk. */
@@ -63,9 +52,9 @@ class GameBoard {
 		*/
 	}
 	receiveAttack (coordinates){
-		coordinates[1] = this.gameObj.board.columns.indexOf(coordinates[1]);
+		coordinates[1] = this.board.columns.indexOf(coordinates[1]);
 		
-		const hitLocation = this.gameObj.board[coordinates[0]][coordinates[1]]
+		const hitLocation = this.board[coordinates[0]][coordinates[1]]
 		if(this.shotsLocation.includes(coordinates.join(','))){
 			return "Already shot there";
 		}
@@ -83,9 +72,9 @@ class GameBoard {
 
 	placeShip(ship, coordinates) {
 		/* need a player argument to negate invalid place for ship */
-		coordinates[1] = this.gameObj.board.columns.indexOf(coordinates[1]);
+		coordinates[1] = this.board.columns.indexOf(coordinates[1]);
 
-		if (this.gameObj.board[coordinates[0]][coordinates[1]] !== " ") {
+		if (this.board[coordinates[0]][coordinates[1]] !== " ") {
 			return "POSITION ALREADY USED";
 		}
 
@@ -95,7 +84,7 @@ class GameBoard {
 				return "Not a valid move";
 			}
 			for (let newC of availablePos[direction]) {
-				this.gameObj.board[newC][coordinates[1]] = ship;
+				this.board[newC][coordinates[1]] = ship;
 			}
 			return [availablePos[direction], coordinates[1]];
 		};
@@ -109,7 +98,7 @@ class GameBoard {
 				/* if newC(column) < player 1 half of the board or 
 				if newC(column) > player 2 half of the board = invalid move */
 
-				this.gameObj.board[coordinates[0]][newC] = ship;
+				this.board[coordinates[0]][newC] = ship;
 			}
 			return [coordinates[0], availablePos[direction]];
 		};

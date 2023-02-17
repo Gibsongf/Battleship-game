@@ -1,4 +1,6 @@
 import { completeShip} from './ships.js'
+import GameBoard from "../src/gameBoard.js";
+
 let allShips = Object.keys(shipType).map(completeShip);
 
 
@@ -15,6 +17,7 @@ function player(name){
     return {
         name,
         turn:false,
-        allShips
+        allShips,
+        myBoard: new GameBoard()
     }
 }
