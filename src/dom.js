@@ -1,37 +1,63 @@
 
-const boardContainer = document.querySelector('.gameboards');
-const p1Board = simple_el('div','board','',boardContainer);
-const rowsNum = simple_el('div','rows-num','',boardContainer);
-const p2Board = simple_el('div','board','',boardContainer);
-
-function simple_el(type, selector_name, innerContent,appendTo) {
-    const ell = document.createElement(type);
-    ell.className = selector_name;
-    if(innerContent.length > 1){
-        ell.textContent = innerContent;
-    }
-    console.log(appendTo)
-    return ell;
+function createSimpleEl(type, selector_name, innerContent, appendTo) {
+	const ell = document.createElement(type);
+	ell.className = selector_name;
+	if (innerContent !== undefined) {
+		ell.textContent = innerContent;
+	}
+	if (appendTo !== undefined) {
+		appendTo.appendChild(ell);
+	}
+	return ell;
 }
 
-
-for (let i = 0; i <= 9; i++){ 
-    const num = document.createElement('div');
-    num.textContent = i;
-    rowsNum.appendChild(num);
-    const col = document.createElement('div');
-    col.classList.add('col');
-    makeColumns(col);
-    const clone = col.cloneNode(true);
-    p1Board.appendChild(col)
-    p2Board .appendChild(clone)
-};
-function makeColumns(r){
-    const arr = Array.from(Array(10).keys());
-    arr.forEach(a => {
-        const row = document.createElement('div');
-        row.classList.add("row")
+function makeDomBoard() {
+	const letters = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+	const boardContainer = document.querySelector(".gameboards");
     
-        r.appendChild(row)
-    })
+	return makeIt();
+
+	function makeIt() {
+		const p1Board = createSimpleEl("div", "boards", "", boardContainer);
+		const p2Board = createSimpleEl("div", "boards", "", boardContainer);
+
+        const p1BoardContainer = createSimpleEl("div", "board-container", "", p1Board);
+		const p2BoardContainer = createSimpleEl("div", "board-container", "", p2Board);
+		for (let i = 0; i <= 10; i++) {
+			const col = document.createElement("div");
+			if (i === 0) {
+				col.classList.add("rows-number");
+			} else {
+				col.classList.add("col");
+			}
+			colIndexLetters(col);
+			boardRows(col);
+
+			const clone = col.cloneNode(true);
+            p1BoardContainer.appendChild(col);
+			p2BoardContainer.appendChild(clone);
+		}
+        const p1Info = createSimpleEl("h2", "info", "Your board", p1Board);
+		const p2Info = createSimpleEl("h2", "info", "Opponent board", p2Board);
+
+		return [p1Board, p2Board];
+	}
+
+	function colIndexLetters(r) {
+		const indxLetter = letters.shift();
+		createSimpleEl("div", "column-letters", indxLetter, r);
+	}
+
+	function boardRows(r) {
+		const arr = Array.from(Array(10).keys());
+		arr.forEach((a) => {
+			if (r.className !== "col") {
+				createSimpleEl("div", "rows-num", a, r);
+			} else {
+				createSimpleEl("div", "row", "", r);
+			}
+		});
+	}
 }
+export default makeDomBoard
+
