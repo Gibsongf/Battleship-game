@@ -7,28 +7,36 @@
     justify-content: center;
     gap: 100px;
 }
-.rows-num{
-    display: grid;
-    grid-template-rows: repeat(10, 57px);
-    grid-template-columns: 60px;
-    align-items: center;
-    text-align: center;
-}
-.rows-num > div{
+
+.column-letters{
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10px;
+}
+.column-letters{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-
-
-.board{
+.board-1, .board-2{
     display: grid;
-    grid-template-rows: repeat(10, 55px);
-    grid-template-columns: repeat(10,60px);
+    grid-template-rows: repeat(11, 55px);
+    grid-template-columns: repeat(11,60px);
 }
 
-.row,.rows-num > div{
+.row{
     border: 1px rgb(0, 0, 0) solid;
     height: 100%;
+}
+.rows-num,.column-letters {
+    border: 1px rgb(249, 247, 247) solid;
+    background-color: black;
+    color: white;
+    height: 100%;
+
 }

@@ -1,16 +1,20 @@
 
 const boardContainer = document.querySelector('.gameboards');
-const p1Board = document.createElement('div');
-const p2Board = document.createElement('div');
-const rowsNum = document.createElement('div');
+const p1Board = simple_el('div','board','',boardContainer);
+const rowsNum = simple_el('div','rows-num','',boardContainer);
+const p2Board = simple_el('div','board','',boardContainer);
+
+function simple_el(type, selector_name, innerContent,appendTo) {
+    const ell = document.createElement(type);
+    ell.className = selector_name;
+    if(innerContent.length > 1){
+        ell.textContent = innerContent;
+    }
+    console.log(appendTo)
+    return ell;
+}
 
 
-rowsNum.classList.add('rows-num');
-p1Board.classList.add('board');
-p2Board.classList.add('board');
-boardContainer.appendChild(p1Board);
-boardContainer.appendChild(rowsNum);
-boardContainer.appendChild(p2Board);
 for (let i = 0; i <= 9; i++){ 
     const num = document.createElement('div');
     num.textContent = i;
