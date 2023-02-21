@@ -1,10 +1,4 @@
 /* 
-Create Game boards factory.
-Note that we have not yet created any User Interface.
-We should know our code is coming together by running the tests.
-You shouldn’t be relying on console.logs or 
-DOM methods to make sure your code is doing what you expect it to.
-
 Game boards 
 should be able to report whether or not all of their ships have been sunk. */
 
@@ -14,7 +8,7 @@ function objBoard() {
 	let board = {};
 
 	const arr = (r) => {
-		r++;
+		/* r++; */
 		let ar = [];
 		for (let i = 0; i <= column.length - 1; i++) {
 			ar.push(" ");
@@ -24,7 +18,7 @@ function objBoard() {
 
 
 
-	board.columns = column;
+	/* board.columns = column; */
 	Array.from(column.keys()).forEach((r) => arr(r));
 	return board;
 }
@@ -36,6 +30,7 @@ will show default position being horizontal */
 class GameBoard {
 	constructor() {
 		this.board = objBoard();
+		
 		/* instead of shot we save the coordinates of each ship  */
 		this.playerShipLocation = [];
 		this.shotsLocation = [];
@@ -69,37 +64,41 @@ class GameBoard {
 			return 'Missed'
 		}
 	}
-
+	formatCoordinates (toFormat){
+		const coordinates = toFormat.split(',')
+		return [Number(coordinates[0]), Number(coordinates[1])]
+	}
 	placeShip(ship, coordinates) {
 		/* need a player argument to negate invalid place for ship */
-		coordinates[1] = this.board.columns.indexOf(coordinates[1]);
+		/* coordinates[1] = this.board.columns.indexOf(coordinates[1]); */
+		coordinates = this.formatCoordinates(coordinates);
 
 		if (this.board[coordinates[0]][coordinates[1]] !== " ") {
 			return "POSITION ALREADY USED";
 		}
 
 		const availablePos = this.getCoord(coordinates, ship);
-		const goUpDown = (direction) => {
-			if (availablePos[direction] === null) {
-				return "Not a valid move";
-			}
-			for (let newC of availablePos[direction]) {
-				this.board[newC][coordinates[1]] = ship;
-			}
-			return [availablePos[direction], coordinates[1]];
-		};
 		const goLeftRight = (direction) => {
 			if (availablePos[direction] === null) {
 				return "Not a valid move";
 			}
 			for (let newC of availablePos[direction]) {
-				/* WE IMPLEMENT THIS LATER */
-				/* if newC(column) > player 1 half of the board = invalid move */
-				/* if newC(column) < player 1 half of the board or 
-				if newC(column) > player 2 half of the board = invalid move */
-
-				this.board[coordinates[0]][newC] = ship;
+				this.board[newC][coordinates[1]] = ship.name;
+				/* console.log('newC> ',newC,'  Coord> ',coordinates[1]) */
 			}
+			console.log(availablePos[direction], coordinates[1])
+			return [availablePos[direction], coordinates[1]];
+		};
+		const goUpDown  = (direction) => {
+			if (availablePos[direction] === null) {
+				return "Not a valid move";
+			}
+			for (let newC of availablePos[direction]) {
+				this.board[coordinates[0]][newC] = ship.name;
+				/* console.log(' Coord> ',newC,' newC> ',[coordinates[0]]) */
+
+			}
+			console.log([coordinates[0], availablePos[direction]])
 			return [coordinates[0], availablePos[direction]];
 		};
 		return { goUpDown, goLeftRight };

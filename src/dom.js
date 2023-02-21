@@ -1,4 +1,3 @@
-
 function createSimpleEl(type, selector_name, innerContent, appendTo) {
 	const ell = document.createElement(type);
 	ell.className = selector_name;
@@ -11,18 +10,46 @@ function createSimpleEl(type, selector_name, innerContent, appendTo) {
 	return ell;
 }
 
-function makeDomBoard() {
-	const letters = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+function DomBoard(forPlayer,playerObjBoard) {
 	const boardContainer = document.querySelector(".gameboards");
-    
-	return makeIt();
+	let allRows = createDomBoard().slice(1);
+	update()
+	return {update,allRows}
+	
+	function update(){
+		for (let k of Object.keys(playerObjBoard)){
+			console.log(allRows[k])
+			for(let i in playerObjBoard[k]){
+			}
+		}
+	}
+	function createDomBoard() {
+		let letters = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+		const theBoard = createSimpleEl("div", "boards", "", boardContainer);
+		let boardCon = createSimpleEl("div", "board-container", "", theBoard);
+		let allRows = [];
 
-	function makeIt() {
-		const p1Board = createSimpleEl("div", "boards", "", boardContainer);
-		const p2Board = createSimpleEl("div", "boards", "", boardContainer);
+		const colIndexLetters = (r) => {
+			const indxLetter = letters.shift();
+			createSimpleEl("div", "column-letters", indxLetter, r);
+		};
 
-        const p1BoardContainer = createSimpleEl("div", "board-container", "", p1Board);
-		const p2BoardContainer = createSimpleEl("div", "board-container", "", p2Board);
+		const boardRows = (r, i) => {
+			const tenRows = []
+			const arr = Array.from(Array(10).keys());
+			arr.forEach((a) => {
+				if (r.className !== "col") {
+					createSimpleEl("div", "rows-num", a, r);
+				} else {
+					const el = createSimpleEl("div", "row", "", r);
+					/* value = dom/obj board coordinate*/
+					el.value = `${a}, ${i - 1}`;
+					tenRows.push(el);
+				}
+			});
+			return tenRows
+		};
+
 		for (let i = 0; i <= 10; i++) {
 			const col = document.createElement("div");
 			if (i === 0) {
@@ -31,33 +58,19 @@ function makeDomBoard() {
 				col.classList.add("col");
 			}
 			colIndexLetters(col);
-			boardRows(col);
-
-			const clone = col.cloneNode(true);
-            p1BoardContainer.appendChild(col);
-			p2BoardContainer.appendChild(clone);
+			allRows.push(boardRows(col, i));
+			boardCon.appendChild(col);
 		}
-        const p1Info = createSimpleEl("h2", "info", "Your board", p1Board);
-		const p2Info = createSimpleEl("h2", "info", "Opponent board", p2Board);
+		if(forPlayer === true){
+			createSimpleEl("h2", "info", 'Your side', theBoard);
+		}
+		else{
+			createSimpleEl("h2", "info", 'Opponent side', theBoard);
 
-		return [p1Board, p2Board];
-	}
+		}
+		return allRows;
 
-	function colIndexLetters(r) {
-		const indxLetter = letters.shift();
-		createSimpleEl("div", "column-letters", indxLetter, r);
-	}
-
-	function boardRows(r) {
-		const arr = Array.from(Array(10).keys());
-		arr.forEach((a) => {
-			if (r.className !== "col") {
-				createSimpleEl("div", "rows-num", a, r);
-			} else {
-				createSimpleEl("div", "row", "", r);
-			}
-		});
 	}
 }
-export default makeDomBoard
 
+export default DomBoard;

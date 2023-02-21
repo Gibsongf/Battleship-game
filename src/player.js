@@ -1,6 +1,13 @@
 import { completeShip} from './ships.js'
 import GameBoard from "../src/gameBoard.js";
 
+const shipType = {
+	Carrier: 5,
+	Battleship: 4,
+	Destroyer: 3,
+	Submarine: 3,
+	"Patrol Boat": 2,
+};
 let allShips = Object.keys(shipType).map(completeShip);
 
 
@@ -13,11 +20,12 @@ The AI does not have to be smart,
 but it should know whether or not a given move is legal.
 (i.e. it shouldn’t shoot the same coordinate twice). */
 
-function player(name){
+function player(){
+    
     return {
-        name,
         turn:false,
         allShips,
-        myBoard: new GameBoard()
+        myGame: new GameBoard()
     }
 }
+export default player
