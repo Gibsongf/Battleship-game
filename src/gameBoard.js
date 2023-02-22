@@ -16,8 +16,6 @@ function objBoard() {
 		board[r] = ar;
 	};
 
-
-
 	/* board.columns = column; */
 	Array.from(column.keys()).forEach((r) => arr(r));
 	return board;
@@ -30,13 +28,13 @@ will show default position being horizontal */
 class GameBoard {
 	constructor() {
 		this.board = objBoard();
-		
+
 		/* instead of shot we save the coordinates of each ship  */
 		this.playerShipLocation = [];
 		this.shotsLocation = [];
 	}
 	/* should be able to report whether or not all of their ships have been sunk. */
-	allShipSunk(player){
+	allShipSunk(player) {
 		/*
 		allsunk = true 
 		player.ships.forEach 
@@ -46,27 +44,26 @@ class GameBoard {
 		return allsunk
 		*/
 	}
-	receiveAttack (coordinates){
+	receiveAttack(coordinates) {
 		coordinates[1] = this.board.columns.indexOf(coordinates[1]);
-		
-		const hitLocation = this.board[coordinates[0]][coordinates[1]]
-		if(this.shotsLocation.includes(coordinates.join(','))){
+
+		const hitLocation = this.board[coordinates[0]][coordinates[1]];
+		if (this.shotsLocation.includes(coordinates.join(","))) {
 			return "Already shot there";
 		}
 		if (hitLocation !== " ") {
 			hitLocation.hit();
 			hitLocation.isSunk();
-			this.shotsLocation.push(coordinates.join(','))
-			return [hitLocation.name,hitLocation.hits, hitLocation.sunk]
-		}
-		else{
-			this.shotsLocation.push(coordinates.join(','))
-			return 'Missed'
+			this.shotsLocation.push(coordinates.join(","));
+			return [hitLocation.name, hitLocation.hits, hitLocation.sunk];
+		} else {
+			this.shotsLocation.push(coordinates.join(","));
+			return "Missed";
 		}
 	}
-	formatCoordinates (toFormat){
-		const coordinates = toFormat.split(',')
-		return [Number(coordinates[0]), Number(coordinates[1])]
+	formatCoordinates(toFormat) {
+		const coordinates = toFormat.split(",");
+		return [Number(coordinates[0]), Number(coordinates[1])];
 	}
 	placeShip(ship, coordinates) {
 		/* need a player argument to negate invalid place for ship */
@@ -77,38 +74,77 @@ class GameBoard {
 			return "POSITION ALREADY USED";
 		}
 
-		const availablePos = this.getCoord(coordinates, ship);
+		const avPos = this.getCoord(coordinates, ship);
+		const isRowOccupied = (av) =>{
+			for(let i of av.row){
+				if(this.board[i][av.col] != ' '){
+					return true
+				}
+			}
+			return false
+		}
+		const isColOccupied = (av) =>{
+			for(let i of av.col){
+				if(this.board[av.row][i] != ' '){
+					return true
+				}
+			}
+			return false
+		}
+		const goUpDown = (direction) => {
+			if(!Array.isArray(avPos[direction].row)){
+				return
+			}
+			if(isRowOccupied(avPos[direction]) === true){
+				return
+			}
+			
+			for(let i of avPos[direction].row){
+				if(this.board[i][avPos[direction].col] != ' '){
+					return
+				}
+				this.board[i][avPos[direction].col] = ship.name
+				
+			}
+		}
 		const goLeftRight = (direction) => {
-			if (availablePos[direction] === null) {
-				return "Not a valid move";
+			if(!Array.isArray(avPos[direction].col)){
+				return
 			}
-			for (let newC of availablePos[direction]) {
-				this.board[newC][coordinates[1]] = ship.name;
-				/* console.log('newC> ',newC,'  Coord> ',coordinates[1]) */
+			if(isColOccupied(avPos[direction]) === true){
+				return
 			}
-			console.log(availablePos[direction], coordinates[1])
-			return [availablePos[direction], coordinates[1]];
-		};
-		const goUpDown  = (direction) => {
-			if (availablePos[direction] === null) {
-				return "Not a valid move";
+			
+			for(let i of avPos[direction].col){
+				if(this.board[avPos[direction].row][i] != ' '){
+					return
+				}
+				this.board[avPos[direction].row][i] = ship.name
+				
 			}
-			for (let newC of availablePos[direction]) {
-				this.board[coordinates[0]][newC] = ship.name;
-				/* console.log(' Coord> ',newC,' newC> ',[coordinates[0]]) */
-
-			}
-			console.log([coordinates[0], availablePos[direction]])
-			return [coordinates[0], availablePos[direction]];
-		};
-		return { goUpDown, goLeftRight };
+		}
+		return  goLeftRight('left')
 	}
 	getCoord(coordinates, ship) {
-		let up = this.getAllCoord(coordinates[0], ship, true); /* row */
-		let left = this.getAllCoord(coordinates[1], ship, true); /* col */
-		let down = this.getAllCoord(coordinates[0], ship); /* row */
-		let right = this.getAllCoord(coordinates[1], ship); /* col */
+		let up = {
+			row: this.getAllCoord(coordinates[0], ship, true),
+			col: coordinates[1],
+		}; /* row */
 
+		let left = {
+			row: coordinates[0],
+			col: this.getAllCoord(coordinates[1], ship, true),
+		}; /* col */
+
+		let down = {
+			row: this.getAllCoord(coordinates[0], ship),
+			col: coordinates[1],
+		}; /* row */
+		
+		let right = {
+			row: coordinates[0],
+			col: this.getAllCoord(coordinates[1], ship),
+		}; /* col */
 		return { up, left, down, right };
 	}
 

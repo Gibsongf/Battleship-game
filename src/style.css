@@ -2,30 +2,31 @@
     padding: 0;
     margin: 0;
 }
-.header {
+
+.boards,
+.header,
+.index-column {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.header {
     margin-bottom: 50px;
 }
-.header  h1 {
-    font-size:  3rem;
+
+.header h1 {
+    font-size: 3rem;
 }
+
 .gameboards {
     display: flex;
     justify-content: center;
     gap: 100px;
 }
 
-.all-col-index {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    
-}
-
+.all-col-index,
 .index-row {
     display: flex;
     flex-direction: row;
@@ -34,15 +35,9 @@
 
 }
 
-.boards{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
 
-.row{
+.row {
     display: flex;
 }
 
@@ -52,7 +47,7 @@
     width: 50px;
     height: 60px;
     border: 1px rgb(0, 0, 0) solid;
-    
+
 }
 
 .index-column,
@@ -60,10 +55,4 @@
     background-color: black;
     color: rgb(251, 242, 242);
     border: 1px rgb(0, 0, 0) solid;
-}
-
-.index-column {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

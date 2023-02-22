@@ -13,12 +13,11 @@ function createSimpleEl(type, selector_name, innerContent, appendTo) {
 function DomBoard(forPlayer,playerObjBoard) {
 	const boardContainer = document.querySelector(".gameboards");
 	let allRows = createDomBoard().slice(1);
-	update()
 	return {update,allRows}
 	
 	function update(){
 		for (let k of Object.keys(playerObjBoard)){
-			console.log(allRows[k],k)
+			
 			for(let i in playerObjBoard[k]){
 				allRows[k][i].textContent = playerObjBoard[k][i]
 			}
@@ -50,7 +49,7 @@ function DomBoard(forPlayer,playerObjBoard) {
 				} else {
 					const el = createSimpleEl("div", "grid", "", r);
 					/* value = dom/obj board coordinate*/
-					el.value = `${a}, ${i - 1}`;
+					el.value = `${i - 1},${a}`;
 					tenRows.push(el);
 				}
 			});

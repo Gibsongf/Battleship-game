@@ -14,11 +14,12 @@ function pShip(){
 		const coordinates = toFormat.split(',')
 		return [Number(coordinates[0]), Number(coordinates[1])]
 	}
-    const newC = formatCoordinates(this.value)
-    console.log(newC)
+    const avMove = p1_info.myGame.placeShip(p1_info.allShips[4],this.value)
+    p1BoardDom.update()
+    
    
 }
-p1BoardDom.allRows.forEach(arr => arr.forEach(r => r.addEventListener('click',pShip)) )
+p1BoardDom.allRows.forEach(arr => arr.forEach(r => r.addEventListener("click",pShip)) )
 
 
 
