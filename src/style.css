@@ -17,14 +17,16 @@
     justify-content: center;
     gap: 100px;
 }
-.rows-number {
+
+.all-col-index {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
     
 }
-.column-letters {
+
+.index-row {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -40,26 +42,27 @@
 }
 
 
-.col{
+.row{
     display: flex;
 }
 
-.row,
-.rows-num,
-.column-letters {
+.grid,
+.index-column,
+.index-row {
     width: 50px;
-    border: 1px rgb(0, 0, 0) solid;
     height: 60px;
+    border: 1px rgb(0, 0, 0) solid;
+    
 }
 
-.rows-num,
-.column-letters {
+.index-column,
+.index-row {
     background-color: black;
     color: rgb(251, 242, 242);
     border: 1px rgb(0, 0, 0) solid;
 }
 
-.rows-num {
+.index-column {
     display: flex;
     justify-content: center;
     align-items: center;

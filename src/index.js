@@ -21,7 +21,7 @@ function pShip(){
 p1BoardDom.allRows.forEach(arr => arr.forEach(r => r.addEventListener('click',pShip)) )
 
 
-console.log(p1_info.myGame.board)
+
 /* take the ship length and change the color of 
 the grid to the len of the ship and this start from the where the cursor is hovering
 a button to rotate a that is it */

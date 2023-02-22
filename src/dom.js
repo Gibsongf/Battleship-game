@@ -18,30 +18,37 @@ function DomBoard(forPlayer,playerObjBoard) {
 	
 	function update(){
 		for (let k of Object.keys(playerObjBoard)){
-			console.log(allRows[k])
+			console.log(allRows[k],k)
 			for(let i in playerObjBoard[k]){
+				allRows[k][i].textContent = playerObjBoard[k][i]
 			}
 		}
 	}
 	function createDomBoard() {
-		let letters = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+		let letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 		const theBoard = createSimpleEl("div", "boards", "", boardContainer);
 		let boardCon = createSimpleEl("div", "board-container", "", theBoard);
 		let allRows = [];
 
-		const colIndexLetters = (r) => {
-			const indxLetter = letters.shift();
-			createSimpleEl("div", "column-letters", indxLetter, r);
+		const colIndexLetters = (r,i) => {
+			if(i === 0){
+				createSimpleEl("div", "index-row", '', r);
+			}
+			else{
+				createSimpleEl("div", "index-row", i-1, r);
+			}
 		};
 
 		const boardRows = (r, i) => {
 			const tenRows = []
 			const arr = Array.from(Array(10).keys());
+
 			arr.forEach((a) => {
-				if (r.className !== "col") {
-					createSimpleEl("div", "rows-num", a, r);
+				const indxLetter = letters.shift();
+				if (r.className !== "row") {
+					createSimpleEl("div", "index-column", indxLetter, r);
 				} else {
-					const el = createSimpleEl("div", "row", "", r);
+					const el = createSimpleEl("div", "grid", "", r);
 					/* value = dom/obj board coordinate*/
 					el.value = `${a}, ${i - 1}`;
 					tenRows.push(el);
@@ -51,15 +58,15 @@ function DomBoard(forPlayer,playerObjBoard) {
 		};
 
 		for (let i = 0; i <= 10; i++) {
-			const col = document.createElement("div");
+			const row = document.createElement("div");
 			if (i === 0) {
-				col.classList.add("rows-number");
+				row.classList.add("all-col-index");
 			} else {
-				col.classList.add("col");
+				row.classList.add("row");
 			}
-			colIndexLetters(col);
-			allRows.push(boardRows(col, i));
-			boardCon.appendChild(col);
+			colIndexLetters(row,i);
+			allRows.push(boardRows(row, i));
+			boardCon.appendChild(row);
 		}
 		if(forPlayer === true){
 			createSimpleEl("h2", "info", 'Your side', theBoard);
