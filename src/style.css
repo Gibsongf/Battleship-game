@@ -44,12 +44,17 @@
 .grid,
 .index-column,
 .index-row {
-    width: 50px;
+    width: 60px;
     height: 60px;
     border: 1px rgb(0, 0, 0) solid;
 
 }
-
+#hovered{
+    background-color: black;
+}
+#ship-placed{
+    background-color: red;
+}
 .index-column,
 .index-row {
     background-color: black;

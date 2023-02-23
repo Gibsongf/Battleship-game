@@ -1,34 +1,42 @@
-import GameBoard from "../src/gameBoard.js";
-import DomBoard from "./dom.js";
+/* import GameBoard from "../src/gameBoard.js"; */
+import { btnRotateEvent, DomBoard} from "./dom.js";
 import player from "./player.js";
 import "./style.css";
 
-
-
 const p1_info = player();
-const p1BoardDom = DomBoard(true,p1_info.myGame.board);
+const p1BoardDom = DomBoard(true, p1_info.myGame.board);
 const p2_info = player();
-const p2BoardDom = DomBoard(false,p2_info.myGame.board);
-function pShip(){
-    const formatCoordinates = (toFormat) => {
-		const coordinates = toFormat.split(',')
-		return [Number(coordinates[0]), Number(coordinates[1])]
-	}
-    const avMove = p1_info.myGame.placeShip(p1_info.allShips[4],this.value)
-    p1BoardDom.update()
+const p2BoardDom = DomBoard(false, p2_info.myGame.board);
+btnRotateEvent()
+
+function pShip(e,remove,fromClick) {
+    const inx = p1_info.myGame.shipsPlaced
     
-   
+    
+    if(inx >4){
+        return
+    }
+	const move = p1_info.myGame.placeShip(p1_info.allShips[inx], e,fromClick);
+	p1BoardDom.hoverGrid(move,remove);
 }
-p1BoardDom.allRows.forEach(arr => arr.forEach(r => r.addEventListener("click",pShip)) )
 
+p1BoardDom.allRows.forEach((arr) =>
+	arr.forEach((r) => r.addEventListener("click",()=> {
+        pShip(r.value,false,true);
+        p1_info.myGame.shipsPlaced ++
 
-
-/* take the ship length and change the color of 
-the grid to the len of the ship and this start from the where the cursor is hovering
-a button to rotate a that is it */
-/* a rotate btn that go tto the available direction that place ship get */
-
+    }))
+);
+p1BoardDom.allRows.forEach((arr) =>
+	arr.forEach((r) => r.addEventListener("mouseover",()=> {
+        pShip(r.value,false)
+    }))
+);
+p1BoardDom.allRows.forEach((arr) =>
+	arr.forEach((r) => r.addEventListener("mouseout", ()=> {
+        pShip(r.value,true)
+    }))
+);
 
 
 /* now the main game loop */
-
