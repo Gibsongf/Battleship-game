@@ -44,7 +44,7 @@ class GameBoard {
 		*/
 	}
 	receiveAttack(coordinates) {
-		coordinates[1] = this.board.columns.indexOf(coordinates[1]);
+		coordinates = this.formatCoordinates(coordinates);
 
 		const hitLocation = this.board[coordinates[0]][coordinates[1]];
 		if (this.shotsLocation.includes(coordinates.join(","))) {
@@ -65,14 +65,10 @@ class GameBoard {
 		return [Number(coordinates[0]), Number(coordinates[1])];
 	}
 	placeShip(ship, coordinates, confirmed) {
-		/* need a player argument to negate invalid place for ship */
-		/* coordinates[1] = this.board.columns.indexOf(coordinates[1]); */
 		coordinates = this.formatCoordinates(coordinates);
-
 		if (this.board[coordinates[0]][coordinates[1]] !== " ") {
 			return "POSITION ALREADY USED";
 		}
-
 		const avPos = this.getCoord(coordinates, ship);
 		const isRowOccupied = (av) => {
 			if (av.row === null) {
@@ -106,8 +102,7 @@ class GameBoard {
 			let arr = [];
 			for (let i of avPos[direction].row) {
 				if (confirmed === true) {
-					this.board[i][avPos[direction].col] = ship.name;
-					/* this.shipsPlaced += 1 */
+					this.board[i][avPos[direction].col] = ship;
 				}
 
 				arr.push([i, avPos[direction].col]);
@@ -124,8 +119,8 @@ class GameBoard {
 			let arr = [];
 			for (let i of avPos[direction].col) {
 				if (confirmed === true) {
-					this.board[avPos[direction].row][i] = ship.name;
-					/* this.shipsPlaced += 1 */
+					this.board[avPos[direction].row][i] = ship;
+
 				}
 
 				arr.push([avPos[direction].row, i]);
