@@ -72,6 +72,9 @@ class GameBoard {
 		}
 		const avPos = this.getCoord(coordinates, ship);
 		const isOccupied = (arr) => {
+			if (!Array.isArray(arr)) {
+				return;
+			}
 			let anw = false;
 			arr.forEach((num) => {
 				if (this.board[num[0]][num[1]] !== " ") {
@@ -89,8 +92,10 @@ class GameBoard {
 		if (confirmed === true && isOccupied(avPos[direction]) === false) {
 			this.shipsPlaced += 1;
 			saveShipToObjBoard(avPos[direction]);
+			return avPos[direction];
 		}
-		return avPos[direction];
+		return avPos;
+		;
 	}
 	moveByRow = (avPos) => {
 		if (!Array.isArray(avPos.row)) {
@@ -136,10 +141,10 @@ class GameBoard {
 			col: this.getAllCoord(coordinates[1], ship),
 		}; /* col */
 		return {
-			up: this.moveByRow(up),
-			left: this.moveByCol(left),
-			down: this.moveByRow(down),
 			right: this.moveByCol(right),
+			down: this.moveByRow(down),
+			left: this.moveByCol(left),
+			up: this.moveByRow(up),
 		};
 	}
 
