@@ -27,7 +27,7 @@ will show default position being horizontal */
 class GameBoard {
 	constructor() {
 		this.board = objBoard();
-		this.shipsPlaced = 0
+		this.shipsPlaced = 0;
 		/* instead of shot we save the coordinates of each ship  */
 		this.playerShipLocation = [];
 		this.shotsLocation = [];
@@ -36,7 +36,7 @@ class GameBoard {
 	allShipSunk(player) {
 		/*
 		allsunk = true 
-		player.ships.forEach 
+		player.allShips.forEach 
 		s => if s.sunk === false 
 			allsunk = false
 			return
@@ -60,81 +60,63 @@ class GameBoard {
 			return "Missed";
 		}
 	}
+
 	formatCoordinates(toFormat) {
 		const coordinates = toFormat.split(",");
 		return [Number(coordinates[0]), Number(coordinates[1])];
 	}
-	placeShip(ship, coordinates, confirmed) {
+	placeShip(coordinates, ship, confirmed, direction) {
 		coordinates = this.formatCoordinates(coordinates);
 		if (this.board[coordinates[0]][coordinates[1]] !== " ") {
 			return "POSITION ALREADY USED";
 		}
 		const avPos = this.getCoord(coordinates, ship);
-		const isRowOccupied = (av) => {
-			if (av.row === null) {
-				return;
-			}
-			for (let i of av.row) {
-				if (this.board[i][av.col] != " ") {
-					return true;
+		const isOccupied = (arr) => {
+			let anw = false;
+			arr.forEach((num) => {
+				if (this.board[num[0]][num[1]] !== " ") {
+					anw = true;
 				}
-			}
-			return false;
+			});
+			return anw;
 		};
-		const isColOccupied = (av) => {
-			if (av.col === null) {
-				return;
-			}
-			for (let i of av.col) {
-				if (this.board[av.row][i] != " ") {
-					return true;
-				}
-			}
-			return false;
+		const saveShipToObjBoard = (arr) => {
+			arr.forEach((num) => {
+				this.board[num[0]][num[1]] = ship;
+			});
 		};
-		const goUpDown = (direction) => {
-			if (!Array.isArray(avPos[direction].row)) {
-				return;
-			}
-			if (isRowOccupied(avPos[direction]) === true) {
-				return;
-			}
-			let arr = [];
-			for (let i of avPos[direction].row) {
-				if (confirmed === true) {
-					this.board[i][avPos[direction].col] = ship;
-				}
 
-				arr.push([i, avPos[direction].col]);
-			}
-			return arr;
-		};
-		const goLeftRight = (direction) => {
-			if (!Array.isArray(avPos[direction].col)) {
-				return;
-			}
-			if (isColOccupied(avPos[direction]) === true) {
-				return;
-			}
-			let arr = [];
-			for (let i of avPos[direction].col) {
-				if (confirmed === true) {
-					this.board[avPos[direction].row][i] = ship;
-
-				}
-
-				arr.push([avPos[direction].row, i]);
-			}
-			return arr;
-		};
-		return {
-			right: goLeftRight("right"),
-			down: goUpDown("down"),
-			left: goLeftRight("left"),
-			up: goUpDown("up"),
-		};
+		if (confirmed === true && isOccupied(avPos[direction]) === false) {
+			this.shipsPlaced += 1;
+			saveShipToObjBoard(avPos[direction]);
+		}
+		return avPos[direction];
 	}
+	moveByRow = (avPos) => {
+		if (!Array.isArray(avPos.row)) {
+			return;
+		}
+		let arr = [];
+		for (let i of avPos.row) {
+			arr.push([i, avPos.col]);
+		}
+		return arr;
+	};
+	moveByCol = (avPos) => {
+		if (!Array.isArray(avPos.col)) {
+			return;
+		}
+		let arr = [];
+		for (let i of avPos.col) {
+			arr.push([avPos.row, i]);
+		}
+		return arr;
+	};
 	getCoord(coordinates, ship) {
+		if (!Array.isArray(coordinates)) {
+			coordinates = this.formatCoordinates(coordinates);
+		}
+
 		let up = {
 			row: this.getAllCoord(coordinates[0], ship, true),
 			col: coordinates[1],
@@ -144,7 +126,6 @@ class GameBoard {
 			row: coordinates[0],
 			col: this.getAllCoord(coordinates[1], ship, true),
 		}; /* col */
-
 		let down = {
 			row: this.getAllCoord(coordinates[0], ship),
 			col: coordinates[1],
@@ -154,7 +135,12 @@ class GameBoard {
 			row: coordinates[0],
 			col: this.getAllCoord(coordinates[1], ship),
 		}; /* col */
-		return { up, left, down, right };
+		return {
+			up: this.moveByRow(up),
+			left: this.moveByCol(left),
+			down: this.moveByRow(down),
+			right: this.moveByCol(right),
+		};
 	}
 
 	getAllCoord(coordinates, ship, minus, indx = 0, lst = []) {
