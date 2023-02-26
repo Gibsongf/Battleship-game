@@ -23,22 +23,7 @@ function DomBoard(player1, playerObjBoard) {
 	let allRows = createDomBoard().slice(1);
 	return { update, hoverGrid, allRows,clickShipPlace };
 
-	function update(arr) {
-		/* for (let k of Object.keys(playerObjBoard)) {
-			for (let i in playerObjBoard[k]) {
-				if(playerObjBoard[k][i] !== ' '){
-					allRows[k][i].setAttribute("id", "ship-placed");
-					console.log(allRows[k][i]);			
-				}
-				allRows[k][i].textContent = playerObjBoard[k][i];
-			}
-		} */
-		const rotate = document.querySelector(".rotate");
-		const direction = Object.keys(arr)[rotate.value];
-		console.log(arr[direction],direction,arr)
-		arr[direction].forEach(ar => allRows[ar[0]][ar[1]].setAttribute("id", "ship-placed"))
-
-	}
+	
 	function clickShipPlace(arr){
 		if (!Array.isArray(arr)) {
 			return;

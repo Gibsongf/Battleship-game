@@ -6,6 +6,8 @@ import "./style.css";
 const p1_info = player();
 const p1BoardDom = DomBoard(true, p1_info.myGame.board);
 
+const p2_info = player();
+const p2BoardDom = DomBoard(false, p1_info.myGame.board);
 let canStart = false;
 /* make a func while loop that will start when all ship are placed
 event listener at p2board that when click active the p2receive attack
@@ -13,11 +15,11 @@ his turn will turn to false and then will be the machine turn
 we will need a function to change the color of the target place
 one for missed shot and accurate shot
  */
-btnRotateEvent();
-
 function pShip(elValue, remove, isClick) {
 	const inx = p1_info.myGame.shipsPlaced;
 	if (inx > 4) {
+		removeEv();
+		canStart = true;
 		return;
 	}
 	const direction = ["right", "down", "left", "up"];
@@ -28,34 +30,51 @@ function pShip(elValue, remove, isClick) {
 		isClick,
 		direction[i]
 	);
-	if(isClick === true){
+	if (isClick === true) {
 		p1BoardDom.clickShipPlace(move);
-		return
+		return;
 	}
 	p1BoardDom.hoverGrid(move, remove, isClick);
 }
-const gridClick = (r) => {
+
+function removeEv() {
+	const events = ["click", "mouseover", "mouseout"];
+	events.forEach((ev) =>
+		p1BoardDom.allRows.forEach((arr) =>
+			arr.forEach((r) => r.removeEventListener(ev, pShip))
+		)
+	);
+}
+const clickPlaceShip = (r) => {
 	r.addEventListener("click", () => {
-		pShip(r.value, false,true);
-	})
-}
-const gridHover = (r) =>{
+		pShip(r.value, false, true);
+	});
+};
+const addHover = (r) => {
 	r.addEventListener("mouseover", () => {
-	pShip(r.value, false);
-})
-}
-p1BoardDom.allRows.forEach((arr) =>
-	arr.forEach((r) => {
-		gridClick(r)
-		gridHover(r)
-	})
-	)
-;
-;
-p1BoardDom.allRows.forEach((arr) =>
+		pShip(r.value, false);
+	});
+};
+const removeHover = (r) => {
+	r.addEventListener("mouseout", () => {
+		pShip(r.value, true);
+	});
+};
+const allEv = (r) => {
+	addHover(r);
+	removeHover(r);
+	clickPlaceShip(r);
+};
+btnRotateEvent();
+p1BoardDom.allRows.forEach((arr) => {
+	arr.forEach((r) => allEv(r));
+});
+
+/* now the main game loop */
+/* p2BoardDom.allRows.forEach((arr) =>
 	arr.forEach((r) =>
-		r.addEventListener("mouseout", () => {
-			pShip(r.value, true);
+		r.addEventListener("click", () => {
+            p2_info.myGame.receiveAttack(r.value)
 		})
 	)
-);
+); */
