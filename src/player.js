@@ -28,7 +28,7 @@ function randomNumbers() {
 function getRndInteger(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function pcRandomMove(pc,pcDom) {
+function randomPlaceShip(pc,pcDom) {
 	const inx = pc.myGame.shipsPlaced;
 	if (inx > 4) {
 		return;
@@ -46,7 +46,7 @@ function pcRandomMove(pc,pcDom) {
 	};
     const di = direction()
     if(di === undefined){
-        pcRandomMove(pc,pcDom)
+        randomPlaceShip(pc,pcDom)
     }
     else{
         const move = pc.myGame.placeShip(
@@ -57,7 +57,7 @@ function pcRandomMove(pc,pcDom) {
             
         );
         pcDom.clickShipPlace(move);
-        pcRandomMove(pc,pcDom)
+        randomPlaceShip(pc,pcDom)
     }
 	
 }
@@ -66,7 +66,8 @@ function machinePlayer(){
         turn:false,
         allShips,
         myGame: new GameBoard(),
-        pcRandomMove
+        randomPlaceShip,
+        randCoord:randomNumbers
     }
 }
 function player(){

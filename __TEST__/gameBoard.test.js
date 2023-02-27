@@ -18,7 +18,7 @@ describe("Place ship from GameBoard", () => {
 		expect(board.getCoord(coordinates,aShip).up	).toStrictEqual(receive.up);
 		expect(board.getCoord(coordinates,aShip).down).toStrictEqual(receive.down);
 	});
-	test.only("put ship somewhere and register tha place at board obj", () => {
+	test("put ship somewhere and register tha place at board obj", () => {
 		const checkBoard = (arr) => {
 			let allSaves = true
 			arr.forEach((num) => {
@@ -35,21 +35,22 @@ describe("Place ship from GameBoard", () => {
 	});
 	test("Receive undefined in invalid direction", () => {
 		let coord = '0,0';
-		expect(board.placeShip(aShip, coord).up).toStrictEqual(undefined);
-		expect(board.placeShip(aShip, coord).left).toStrictEqual(undefined);
+		console.log(board.placeShip(coord,aShip,true,'up'))
+		expect(board.placeShip(coord,aShip,true,'up')).toStrictEqual('Not a valid move');
+		expect(board.placeShip(coord,aShip,true,'left')).toStrictEqual('Not a valid move');
 	});
 	test("Position already used",() => {
-		board.placeShip(aShip, coordinates, true,'left')
-		expect(board.placeShip(aShip, coordinates,true,'left')).toStrictEqual('POSITION ALREADY USED');
+		board.placeShip(coordinates,aShip,true,'left')
+		expect(board.placeShip(coordinates,aShip,true,'left')).toStrictEqual('POSITION ALREADY USED');
 		
 	})
 });
 
 describe("receiveAttack functionality", () => {
 	const atkCoord = '2,1';
-	board.placeShip(aShip, '2,1', true).left
+	board.placeShip('2,1', aShip, true,'right')
 	test("ship get hit by receiveAttack", () => {
-		expect(board.receiveAttack(atkCoord)).toStrictEqual(["Submarine", 1, false,]);
+		expect(board.receiveAttack(atkCoord)).toStrictEqual(["Submarine", 1, false,[2,1]]);
 	});
 	test("receiveAttack used location", () => {
 		expect(board.receiveAttack(atkCoord)).toStrictEqual(

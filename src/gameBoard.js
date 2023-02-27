@@ -34,29 +34,31 @@ class GameBoard {
 	}
 	/* should be able to report whether or not all of their ships have been sunk. */
 	allShipSunk(player) {
-		/*
-		allsunk = true 
-		player.allShips.forEach 
-		s => if s.sunk === false 
-			allsunk = false
-			return
-		return allsunk
-		*/
+		let allSunk = true;
+		player.allShips.forEach(ship => {
+			if(ship.sunk === false){
+				allSunk = false;
+				return
+			}
+		})
+		console.log(allSunk)
+		return allSunk
+		
 	}
 	receiveAttack(coordinates) {
-		coordinates = this.formatCoordinates(coordinates);
 
-		const hitLocation = this.board[coordinates[0]][coordinates[1]];
-		if (this.shotsLocation.includes(coordinates.join(","))) {
+		const arrCoord = this.formatCoordinates(coordinates)
+		const hitLocation = this.board[arrCoord[0]][arrCoord[1]];
+		if (this.shotsLocation.includes(coordinates)) {
 			return "Already shot there";
 		}
 		if (hitLocation !== " ") {
 			hitLocation.hit();
 			hitLocation.isSunk();
-			this.shotsLocation.push(coordinates.join(","));
-			return [hitLocation.name, hitLocation.hits, hitLocation.sunk];
+			this.shotsLocation.push(coordinates);
+			return [hitLocation.name, hitLocation.hits, hitLocation.sunk,arrCoord];
 		} else {
-			this.shotsLocation.push(coordinates.join(","));
+			this.shotsLocation.push(coordinates);
 			return "Missed";
 		}
 	}
@@ -75,7 +77,7 @@ class GameBoard {
 		const avPos = this.getCoord(coordinates, ship);
 		const isOccupied = (arr) => {
 			if (!Array.isArray(arr)) {
-				return;
+				return true;
 			}
 			let anw = false;
 			arr.forEach((num) => {
@@ -90,11 +92,13 @@ class GameBoard {
 				this.board[num[0]][num[1]] = ship;
 			});
 		};
-
 		if (confirmed === true && isOccupied(avPos[direction]) === false) {
 			this.shipsPlaced += 1;
 			saveShipToObjBoard(avPos[direction]);
 			return avPos[direction];
+		}
+		if(isOccupied(avPos[direction]) === true){
+			return 'Not a valid move'
 		}
 		return avPos;
 	}

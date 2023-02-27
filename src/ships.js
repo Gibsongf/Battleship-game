@@ -6,7 +6,6 @@ function shipsFactory(type, shipLength) {
 		sunk: false,
 		hit: "",
 		isSunk: "",
-		position: "horizontal",
 	};
 }
 
