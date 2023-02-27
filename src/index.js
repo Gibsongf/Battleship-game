@@ -1,14 +1,17 @@
 /* import GameBoard from "../src/gameBoard.js"; */
 import { btnRotateEvent, DomBoard } from "./dom.js";
-import player from "./player.js";
+import {player,machinePlayer} from "./player.js";
 import "./style.css";
 
 const p1_info = player();
 const p1BoardDom = DomBoard(true, p1_info.myGame.board);
 
-const p2_info = player();
+const p2_info = machinePlayer();
 const p2BoardDom = DomBoard(false, p1_info.myGame.board);
+p2_info.pcRandomMove(p2_info,p2BoardDom);
 let canStart = false;
+
+
 /* make a func while loop that will start when all ship are placed
 event listener at p2board that when click active the p2receive attack
 his turn will turn to false and then will be the machine turn
@@ -34,7 +37,7 @@ function pShip(elValue, remove, isClick) {
 		p1BoardDom.clickShipPlace(move);
 		return;
 	}
-	p1BoardDom.hoverGrid(move, remove, isClick);
+	p1BoardDom.hoverGridEvents(move, remove, isClick);
 }
 
 function removeEv() {
@@ -71,10 +74,10 @@ p1BoardDom.allRows.forEach((arr) => {
 });
 
 /* now the main game loop */
-/* p2BoardDom.allRows.forEach((arr) =>
+p2BoardDom.allRows.forEach((arr) =>
 	arr.forEach((r) =>
 		r.addEventListener("click", () => {
             p2_info.myGame.receiveAttack(r.value)
 		})
 	)
-); */
+);

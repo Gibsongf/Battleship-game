@@ -66,7 +66,9 @@ class GameBoard {
 		return [Number(coordinates[0]), Number(coordinates[1])];
 	}
 	placeShip(coordinates, ship, confirmed, direction) {
-		coordinates = this.formatCoordinates(coordinates);
+		if (!Array.isArray(coordinates)) {
+			coordinates = this.formatCoordinates(coordinates);
+		}
 		if (this.board[coordinates[0]][coordinates[1]] !== " ") {
 			return "POSITION ALREADY USED";
 		}
@@ -95,27 +97,17 @@ class GameBoard {
 			return avPos[direction];
 		}
 		return avPos;
-		;
 	}
-	moveByRow = (avPos) => {
-		if (!Array.isArray(avPos.row)) {
-			return;
+
+	arrayMoves = (avPos) => {
+		if (Array.isArray(avPos.col)) {
+			let arr = avPos.col.map((i) => [avPos.row, i]);
+			return arr;
 		}
-		let arr = [];
-		for (let i of avPos.row) {
-			arr.push([i, avPos.col]);
+		if (Array.isArray(avPos.row)) {
+			let arr = avPos.row.map((i) => [i, avPos.col]);
+			return arr;
 		}
-		return arr;
-	};
-	moveByCol = (avPos) => {
-		if (!Array.isArray(avPos.col)) {
-			return;
-		}
-		let arr = [];
-		for (let i of avPos.col) {
-			arr.push([avPos.row, i]);
-		}
-		return arr;
 	};
 	getCoord(coordinates, ship) {
 		if (!Array.isArray(coordinates)) {
@@ -141,10 +133,10 @@ class GameBoard {
 			col: this.getAllCoord(coordinates[1], ship),
 		}; /* col */
 		return {
-			right: this.moveByCol(right),
-			down: this.moveByRow(down),
-			left: this.moveByCol(left),
-			up: this.moveByRow(up),
+			right: this.arrayMoves(right),
+			down: this.arrayMoves(down),
+			left: this.arrayMoves(left),
+			up: this.arrayMoves(up),
 		};
 	}
 

@@ -45,7 +45,7 @@ describe("Place ship from GameBoard", () => {
 	})
 });
 
-/* describe("receiveAttack functionality", () => {
+describe("receiveAttack functionality", () => {
 	const atkCoord = '2,1';
 	board.placeShip(aShip, '2,1', true).left
 	test("ship get hit by receiveAttack", () => {
@@ -59,4 +59,4 @@ describe("Place ship from GameBoard", () => {
 	test("receiveAttack missed", () => {
 		expect(board.receiveAttack('7,1')).toStrictEqual("Missed");
 	});
-}); */
+});

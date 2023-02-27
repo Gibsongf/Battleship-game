@@ -19,7 +19,56 @@ players capable of making random plays.
 The AI does not have to be smart, 
 but it should know whether or not a given move is legal.
 (i.e. it shouldn’t shoot the same coordinate twice). */
-
+function randomNumbers() {
+	let numRand = () => Math.floor(Math.random() * 10);
+	let arr = Array.from(Array(2).keys());
+	let randomArr = arr.map(numRand);
+	return randomArr;
+}
+function getRndInteger(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function pcRandomMove(pc,pcDom) {
+	const inx = pc.myGame.shipsPlaced;
+	if (inx > 4) {
+		return;
+	}
+	let randomPlace = randomNumbers();
+	const objM = pc.myGame.getCoord(randomPlace, pc.allShips[inx]);
+	const direction = () => {
+		const arr = [];
+		Object.keys(objM).forEach((k) => {
+			if (objM[k] !== undefined) {
+				arr.push(k);
+			}
+		});
+		return arr[getRndInteger(0, arr.length - 1)];
+	};
+    const di = direction()
+    if(di === undefined){
+        pcRandomMove(pc,pcDom)
+    }
+    else{
+        const move = pc.myGame.placeShip(
+            randomPlace,
+            pc.allShips[inx],
+            true,
+            di
+            
+        );
+        pcDom.clickShipPlace(move);
+        pcRandomMove(pc,pcDom)
+    }
+	
+}
+function machinePlayer(){
+    return {
+        turn:false,
+        allShips,
+        myGame: new GameBoard(),
+        pcRandomMove
+    }
+}
 function player(){
     
     return {
@@ -28,4 +77,4 @@ function player(){
         myGame: new GameBoard()
     }
 }
-export default player
+export  {player,machinePlayer}

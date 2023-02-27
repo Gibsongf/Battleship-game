@@ -9,50 +9,46 @@ function createSimpleEl(type, selector_name, innerContent, appendTo) {
 	}
 	return ell;
 }
-function btnRotateEvent(){
+function btnRotateEvent() {
 	const rotate = document.querySelector(".rotate");
-		rotate.addEventListener("click", () => {
-			rotate.value = Number(rotate.value) + 1;
-			if (Number(rotate.value) >= 4) {
-				rotate.value = 0;
-			}
-		});
+	rotate.addEventListener("click", () => {
+		rotate.value = Number(rotate.value) + 1;
+		if (Number(rotate.value) >= 4) {
+			rotate.value = 0;
+		}
+	});
 }
-function DomBoard(player1, playerObjBoard) {
+function DomBoard(player1) {
 	const boardContainer = document.querySelector(".gameboards");
 	let allRows = createDomBoard().slice(1);
-	return { update, hoverGrid, allRows,clickShipPlace };
+	return { hoverGridEvents, allRows, clickShipPlace };
 
-	
-	function clickShipPlace(arr){
+	function clickShipPlace(arr) {
 		if (!Array.isArray(arr)) {
 			return;
 		}
-		arr.forEach(ar => allRows[ar[0]][ar[1]].setAttribute("id", "ship-placed"))
-
+		arr.forEach((ar) =>
+			allRows[ar[0]][ar[1]].setAttribute("id", "ship-placed")
+		);
 	}
-	function hoverGrid(arr, remove,) {
+	function hoverGridEvents(arr, remove) {
 		const rotate = document.querySelector(".rotate");
 
 		const direction = Object.keys(arr)[Number(rotate.value)];
 		if (arr[direction] === undefined) return;
-		if(arr === 'POSITION ALREADY USED') return
-		
-		if (remove === true ) {
-			
-			arr[direction].forEach(ar => {
-				if(allRows[ar[0]][ar[1]].id === 'hovered'){
-					allRows[ar[0]][ar[1]].setAttribute("id", "")
-				}
+		if (arr === "POSITION ALREADY USED") return;
 
+		if (remove === true) {
+			arr[direction].forEach((ar) => {
+				if (allRows[ar[0]][ar[1]].id === "hovered") {
+					allRows[ar[0]][ar[1]].setAttribute("id", "");
+				}
 			});
-			
 		} else {
-			arr[direction].forEach(ar => {
-				if(allRows[ar[0]][ar[1]].id !== 'ship-placed'){
-					allRows[ar[0]][ar[1]].setAttribute("id", "hovered")
+			arr[direction].forEach((ar) => {
+				if (allRows[ar[0]][ar[1]].id !== "ship-placed") {
+					allRows[ar[0]][ar[1]].setAttribute("id", "hovered");
 				}
-
 			});
 		}
 	}
@@ -108,4 +104,4 @@ function DomBoard(player1, playerObjBoard) {
 	}
 }
 
-export { btnRotateEvent, DomBoard};
+export { btnRotateEvent, DomBoard };
