@@ -56,7 +56,7 @@ function randomPlaceShip(pc,pcDom) {
             di
             
         );
-        pcDom.clickShipPlace(move);
+        /* pcDom.clickShipPlace(move); */
         randomPlaceShip(pc,pcDom)
     }
 	

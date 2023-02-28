@@ -1,20 +1,14 @@
-/* import GameBoard from "../src/gameBoard.js"; */
-import { btnRotateEvent, DomBoard,infoUser  } from "./dom.js";
+import { btnRotateEvent, DomBoard, infoUser } from "./dom.js";
 import { player, machinePlayer } from "./player.js";
 import "./style.css";
-
-const p1_info = player();
-const p1BoardDom = DomBoard(true, p1_info.myGame.board);
-const p2_info = machinePlayer();
-const p2BoardDom = DomBoard(false, p1_info.myGame.board);
-p2_info.randomPlaceShip(p2_info, p2BoardDom);
-let canStart = false;
 
 function pShip(elValue, remove, isClick) {
 	const inx = p1_info.myGame.shipsPlaced;
 	if (inx > 4) {
+		if(!canStart){
+			infoUser("You can attack now");
+		}
 		canStart = true;
-		infoUser("You can attack now");
 		return;
 	}
 	const direction = ["right", "down", "left", "up"];
@@ -26,8 +20,8 @@ function pShip(elValue, remove, isClick) {
 		direction[i]
 	);
 	if (isClick === true) {
-		if(p1_info.allShips[inx+1] !== undefined){
-			infoUser("Place your "+p1_info.allShips[inx+1].name); 
+		if (p1_info.allShips[inx + 1] !== undefined) {
+			infoUser("Place your " + p1_info.allShips[inx + 1].name);
 		}
 		p1BoardDom.clickShipPlace(move);
 		return;
@@ -51,18 +45,6 @@ const removeHover = (r) => {
 	});
 };
 
-btnRotateEvent();
-p1BoardDom.allRows.forEach((arr) => {
-	arr.forEach((r) => {
-		infoUser("Place your "+p1_info.allShips[0].name)
-		addHover(r);
-		removeHover(r);
-		clickPlaceShip(r);
-	});
-});
-
-/* now the main game loop */
-/* turn this in function that reactive when is not the player turn and just active when is player turn */
 function attackEvents(el, player, playerDom) {
 	if (typeof el === "object") {
 		el = el.value;
@@ -98,8 +80,7 @@ function machineLoop() {
 	}
 	if (anw === "End game") {
 		removeClickAtk();
-		infoUser("You lose!")
-		console.log("end put some pop up");
+		infoUser("You lose!");
 	}
 	p2_info.turn = false;
 }
@@ -109,8 +90,7 @@ function mainLoop() {
 			const anw = attackEvents(this.value, p2_info, p2BoardDom);
 			if (anw === "End game") {
 				removeClickAtk();
-				infoUser("You Won!")
-				console.log("end put some pop up");
+				infoUser("You Won!");
 			}
 			if (anw !== "again") {
 				p1_info.turn = false;
@@ -126,5 +106,22 @@ function startGameByClickEv() {
 		arr.forEach((r) => r.addEventListener("click", mainLoop))
 	);
 }
+
+const p1_info = player();
+const p1BoardDom = DomBoard(true, p1_info.myGame.board);
+const p2_info = machinePlayer();
+const p2BoardDom = DomBoard(false, p1_info.myGame.board);
+p2_info.randomPlaceShip(p2_info, p2BoardDom);
+let canStart = false;
+
+btnRotateEvent();
+p1BoardDom.allRows.forEach((arr) => {
+	arr.forEach((r) => {
+		infoUser("Place your " + p1_info.allShips[0].name);
+		addHover(r);
+		removeHover(r);
+		clickPlaceShip(r);
+	});
+});
 p1_info.turn = true;
 startGameByClickEv();
