@@ -87,7 +87,6 @@ function attackEvents(el, player, playerDom) {
 		playerDom.hitEvent(coord);
 		player.turn = true;
 		if (player.myGame.allShipSunk(player) === true) {
-			end = true;
 			return "End game";
 		}
 	}
@@ -101,54 +100,40 @@ function attackEvents(el, player, playerDom) {
 }
 function removeClickAtk() {
 	p2BoardDom.allRows.forEach((arr) =>
-		arr.forEach((r) => r.removeEventListener("click", attackEvents))
+		arr.forEach((r) => r.removeEventListener("click", mainLoop))
 	);
 }
-function clickAttack() {
+function machineLoop() {
+	const str = p2_info.randCoord().join(",");
+	const anw = attackEvents(str, p1_info, p1BoardDom);
+	if (anw === "again") {
+		machineLoop();
+	}
+	if (anw === "End game") {
+		removeClickAtk();
+		console.log("end put some pop up");
+	}
+	p2_info.turn = false;
+}
+function mainLoop() {
+	if (p1_info.turn === true) {
+		const anw = attackEvents(this.value, p2_info, p2BoardDom);
+		if (anw === "End game") {
+			removeClickAtk();
+			console.log("end put some pop up");
+		}
+		if (anw !== "again") {
+			p1_info.turn = false;
+		}
+	}
+	if (p2_info.turn === true) {
+		machineLoop();
+	}
+}
+function startGameByClickEv() {
 	p2BoardDom.allRows.forEach((arr) =>
-		arr.forEach((r) =>
-			r.addEventListener("click", () => {
-				const anw = attackEvents(r, p2_info, p2BoardDom);
-				if (anw !== "again") {
-					const str = p2_info.randCoord().join(",");
-					attackEvents(str, p1_info, p1BoardDom);
-				}
-				if (anw !== "End game") {
-					removeClickAtk();
-				}
-			})
-		)
+		arr.forEach((r) => r.addEventListener("click", mainLoop))
 	);
 }
-let end = false;
-clickAttack();
-/* p1_info.turn = true
-for(let i = 0; i <= 10; i++){
-	if(p1_info.turn === true){
-		const str =  p1_info.randCoord().join(',')
-		attackEvents(str, p2_info, p2BoardDom);
-		p1_info.turn = false;
-
-	}
-	if(p2_info.turn === true){
-		const str =  p2_info.randCoord().join(',')
-		attackEvents(str, p1_info, p1BoardDom);
-		p2_info.turn = false;
-	}
-} */
-
-/* while(end !== true){
-	if(p1_info.turn === true){
-		const str =  p1_info.randCoord().join(',')
-		attackEvents(str, p2_info, p2BoardDom);
-		p1_info.turn = false;
-
-	}
-	if(p2_info.turn === true){
-		const str =  p2_info.randCoord().join(',')
-		attackEvents(str, p1_info, p1BoardDom);
-		p2_info.turn = false;
-	}
-	
-	
-} */
+p1_info.turn = true;
+startGameByClickEv();

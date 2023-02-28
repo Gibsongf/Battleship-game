@@ -61,3 +61,23 @@ describe("receiveAttack functionality", () => {
 		expect(board.receiveAttack('7,1')).toStrictEqual("Missed");
 	});
 });
+describe("ship is sunk", () =>{
+	const atkCoord = '2,1';
+	const right = board.getCoord(atkCoord,aShip).right
+	board.placeShip('2,1', aShip, true,'right')
+	let count = 1;
+	right.forEach(arr => {
+		test.only("ship sunk", () => {
+			if(count === aShip.length){
+				expect(board.receiveAttack(arr.join(','))).toStrictEqual(["Submarine", count, true,arr]);
+				count++
+			}
+			else{
+				expect(board.receiveAttack(arr.join(','))).toStrictEqual(["Submarine", count, false,arr]);
+				count++
+			}
+			
+		})
+	} )
+	;
+})
