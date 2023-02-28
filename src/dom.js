@@ -34,7 +34,7 @@ function DomBoard(player1) {
 	const boardContainer = document.querySelector(".gameboards");
 	let allRows = createDomBoard().slice(1);
 	return { hitEvent, missedEvent, hoverGridEvents, allRows, clickShipPlace };
-	
+
 	function hitEvent(arr) {
 		const img = createImg();
 		allRows[arr[0]][arr[1]].appendChild(img);

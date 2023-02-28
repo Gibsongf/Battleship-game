@@ -1,8 +1,3 @@
-/* 
-Game boards 
-should be able to report whether or not all of their ships have been sunk. */
-
-/* a 2D board with 10x10 with column being letter and row number */
 function objBoard() {
 	let column = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 	let board = {};
@@ -16,23 +11,17 @@ function objBoard() {
 		board[r] = ar;
 	};
 
-	/* board.columns = column; */
 	Array.from(column.keys()).forEach((r) => arr(r));
 	return board;
 }
-/* should be able to place ships at specific coordinates
-by calling the ship factory function. */
-/* user will click in a board location then the ship image 
-will show default position being horizontal */
+
 class GameBoard {
 	constructor() {
 		this.board = objBoard();
 		this.shipsPlaced = 0;
-		/* instead of shot we save the coordinates of each ship  */
 		this.playerShipLocation = [];
 		this.shotsLocation = [];
 	}
-	/* should be able to report whether or not all of their ships have been sunk. */
 	allShipSunk(player) {
 		let allSunk = true;
 		player.allShips.forEach((ship) => {
@@ -53,12 +42,7 @@ class GameBoard {
 			hitLocation.hit();
 			hitLocation.isSunk();
 			this.shotsLocation.push(coordinates);
-			return [
-				hitLocation.name,
-				hitLocation.hits,
-				hitLocation.sunk,
-				arrCoord,
-			];
+			return [arrCoord];
 		} else {
 			this.shotsLocation.push(coordinates);
 			return "Missed";
@@ -92,7 +76,7 @@ class GameBoard {
 		const saveShipToObjBoard = (arr) => {
 			arr.forEach((num) => {
 				this.board[num[0]][num[1]] = ship;
-				this.playerShipLocation.push([num[0],num[1]]);
+				this.playerShipLocation.push([num[0], num[1]]);
 			});
 		};
 		if (confirmed === true && isOccupied(avPos[direction]) === false) {
@@ -116,6 +100,7 @@ class GameBoard {
 			return arr;
 		}
 	};
+	/* Don't need all direction just the x and  y  */
 	getCoord(coordinates, ship) {
 		if (!Array.isArray(coordinates)) {
 			coordinates = this.formatCoordinates(coordinates);

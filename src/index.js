@@ -5,7 +5,7 @@ import "./style.css";
 function pShip(elValue, remove, isClick) {
 	const inx = p1_info.myGame.shipsPlaced;
 	if (inx > 4) {
-		if(!canStart){
+		if (!canStart) {
 			infoUser("You can attack now");
 		}
 		canStart = true;

@@ -1,4 +1,4 @@
-import { completeShip} from './ships.js'
+import { completeShip } from "./ships.js";
 import GameBoard from "../src/gameBoard.js";
 
 const shipType = {
@@ -10,7 +10,6 @@ const shipType = {
 };
 let allShips = () => Object.keys(shipType).map(completeShip);
 
-
 /* Create Player.
 Players can take turns playing the game by attacking the enemy Gameboard.
 
@@ -19,6 +18,7 @@ players capable of making random plays.
 The AI does not have to be smart, 
 but it should know whether or not a given move is legal.
 (i.e. it shouldn’t shoot the same coordinate twice). */
+
 function randomNumbers() {
 	let numRand = () => Math.floor(Math.random() * 10);
 	let arr = Array.from(Array(2).keys());
@@ -28,7 +28,7 @@ function randomNumbers() {
 function getRndInteger(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function randomPlaceShip(pc,pcDom) {
+function randomPlaceShip(pc, pcDom) {
 	const inx = pc.myGame.shipsPlaced;
 	if (inx > 4) {
 		return;
@@ -44,38 +44,28 @@ function randomPlaceShip(pc,pcDom) {
 		});
 		return arr[getRndInteger(0, arr.length - 1)];
 	};
-    const di = direction()
-    if(di === undefined){
-        randomPlaceShip(pc,pcDom)
-    }
-    else{
-        const move = pc.myGame.placeShip(
-            randomPlace,
-            pc.allShips[inx],
-            true,
-            di
-            
-        );
-        /* pcDom.clickShipPlace(move); */
-        randomPlaceShip(pc,pcDom)
-    }
-	
+	const di = direction();
+	if (di === undefined) {
+		randomPlaceShip(pc, pcDom);
+	} else {
+		pc.myGame.placeShip(randomPlace, pc.allShips[inx], true, di);
+		randomPlaceShip(pc, pcDom);
+	}
 }
-function machinePlayer(){
-    return {
-        turn:false,
-        allShips: allShips(),
-        myGame: new GameBoard(),
-        randomPlaceShip,
-        randCoord:randomNumbers
-    }
+function machinePlayer() {
+	return {
+		turn: false,
+		allShips: allShips(),
+		myGame: new GameBoard(),
+		randomPlaceShip,
+		randCoord: randomNumbers,
+	};
 }
-function player(){
-    
-    return {
-        turn:false,
-        allShips: allShips(),
-        myGame: new GameBoard()
-    }
+function player() {
+	return {
+		turn: false,
+		allShips: allShips(),
+		myGame: new GameBoard(),
+	};
 }
-export  {player,machinePlayer}
+export { player, machinePlayer };

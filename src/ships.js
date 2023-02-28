@@ -28,8 +28,6 @@ function completeShip(name) {
 	return ship;
 }
 
-
-
 const shipType = {
 	Carrier: 5,
 	Battleship: 4,
@@ -38,6 +36,4 @@ const shipType = {
 	"Patrol Boat": 2,
 };
 
-/* should be able to place ships at specific coordinates
-by calling the ship factory function. */
 export { completeShip };
