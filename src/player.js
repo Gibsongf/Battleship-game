@@ -8,7 +8,7 @@ const shipType = {
 	Submarine: 3,
 	"Patrol Boat": 2,
 };
-let allShips = Object.keys(shipType).map(completeShip);
+let allShips = () => Object.keys(shipType).map(completeShip);
 
 
 /* Create Player.
@@ -64,7 +64,7 @@ function randomPlaceShip(pc,pcDom) {
 function machinePlayer(){
     return {
         turn:false,
-        allShips,
+        allShips: allShips(),
         myGame: new GameBoard(),
         randomPlaceShip,
         randCoord:randomNumbers
@@ -74,7 +74,7 @@ function player(){
     
     return {
         turn:false,
-        allShips,
+        allShips: allShips(),
         myGame: new GameBoard()
     }
 }
