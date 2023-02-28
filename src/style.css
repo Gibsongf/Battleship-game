@@ -59,12 +59,13 @@
 .index-row {
     background-color: black;
     color: rgb(251, 242, 242);
-    border: 1px rgb(0, 0, 0) solid;
+    border: 2px rgb(0, 0, 0) solid;
 }
 
 .hit-icon {
     opacity: 0.7;
 }
 #missed-shot{
-    background-color: grey
+    background-color: grey;
+    border-color: red;
 }

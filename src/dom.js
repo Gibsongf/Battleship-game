@@ -1,4 +1,4 @@
-import hitX from "/src/img/hitX.png"
+import hitX from "/src/img/hitX.png";
 
 function createSimpleEl(type, selector_name, innerContent, appendTo) {
 	const ell = document.createElement(type);
@@ -11,11 +11,11 @@ function createSimpleEl(type, selector_name, innerContent, appendTo) {
 	}
 	return ell;
 }
-function createImg(){
+function createImg() {
 	const iconHit = new Image();
-  	iconHit.src = hitX;
-	iconHit.className = 'hit-icon'
-	return iconHit
+	iconHit.src = hitX;
+	iconHit.className = "hit-icon";
+	return iconHit;
 }
 function btnRotateEvent() {
 	const rotate = document.querySelector(".rotate");
@@ -26,17 +26,21 @@ function btnRotateEvent() {
 		}
 	});
 }
+function infoUser(passToUser) {
+	const info = document.querySelector(".inform-user");
+	info.textContent = passToUser;
+}
 function DomBoard(player1) {
 	const boardContainer = document.querySelector(".gameboards");
 	let allRows = createDomBoard().slice(1);
-	return { hitEvent,missedEvent,hoverGridEvents, allRows, clickShipPlace };
-	function hitEvent(arr){
-		const img = createImg()
-		allRows[arr[0]][arr[1]].appendChild(img)
-
+	return { hitEvent, missedEvent, hoverGridEvents, allRows, clickShipPlace };
+	
+	function hitEvent(arr) {
+		const img = createImg();
+		allRows[arr[0]][arr[1]].appendChild(img);
 	}
-	function missedEvent(arr){
-		allRows[arr[0]][arr[1]].setAttribute("id", "missed-shot")
+	function missedEvent(arr) {
+		allRows[arr[0]][arr[1]].setAttribute("id", "missed-shot");
 	}
 	function clickShipPlace(arr) {
 		if (!Array.isArray(arr)) {
@@ -49,7 +53,8 @@ function DomBoard(player1) {
 	function hoverGridEvents(arr, remove) {
 		const rotate = document.querySelector(".rotate");
 		const direction = Object.keys(arr)[Number(rotate.value)];
-		if (arr === "POSITION ALREADY USED" || arr === 'Not a valid move') return;
+		if (arr === "POSITION ALREADY USED" || arr === "Not a valid move")
+			return;
 
 		if (remove === true) {
 			arr[direction].forEach((ar) => {
@@ -117,4 +122,4 @@ function DomBoard(player1) {
 	}
 }
 
-export { btnRotateEvent, DomBoard };
+export { btnRotateEvent, DomBoard, infoUser };
