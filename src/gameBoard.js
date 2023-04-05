@@ -42,7 +42,7 @@ class GameBoard {
 			hitLocation.hit();
 			hitLocation.isSunk();
 			this.shotsLocation.push(coordinates);
-			return [arrCoord];
+			return [hitLocation.name,hitLocation.hits,hitLocation.isSunk(),arrCoord];
 		} else {
 			this.shotsLocation.push(coordinates);
 			return "Missed";

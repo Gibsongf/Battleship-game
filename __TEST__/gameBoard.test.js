@@ -12,13 +12,13 @@ describe("Place ship from GameBoard", () => {
 		up : [[4, 5],[3, 5],[2, 5]],
 		down : [[4, 5],[5, 5],[6, 5]]
 	};
-	test('new get coord', () => {
+	test('correct coordinates that the ship can be placed', () => {
 		expect(board.getCoord(coordinates,aShip).right).toStrictEqual(receive.right);
 		expect(board.getCoord(coordinates,aShip).left).toStrictEqual(receive.left);
 		expect(board.getCoord(coordinates,aShip).up	).toStrictEqual(receive.up);
 		expect(board.getCoord(coordinates,aShip).down).toStrictEqual(receive.down);
 	});
-	test("put ship somewhere and register tha place at board obj", () => {
+	test("ship register at board obj", () => {
 		const checkBoard = (arr) => {
 			let allSaves = true
 			arr.forEach((num) => {
@@ -33,51 +33,38 @@ describe("Place ship from GameBoard", () => {
 		expect(checkBoard(receive.left)).toBe(true);
 		expect(checkBoard(receive.right)).toBe(false);
 	});
-	test("Receive undefined in invalid direction", () => {
+	test("don't allow place ship in invalid board location", () => {
 		let coord = '0,0';
-		console.log(board.placeShip(coord,aShip,true,'up'))
 		expect(board.placeShip(coord,aShip,true,'up')).toStrictEqual('Not a valid move');
 		expect(board.placeShip(coord,aShip,true,'left')).toStrictEqual('Not a valid move');
 	});
-	test("Position already used",() => {
+	test("Position already used when placing ship",() => {
 		board.placeShip(coordinates,aShip,true,'left')
 		expect(board.placeShip(coordinates,aShip,true,'left')).toStrictEqual('POSITION ALREADY USED');
 		
 	})
 });
 
-describe("receiveAttack functionality", () => {
+describe("board reaction after receive an attack", () => {
 	const atkCoord = '2,1';
 	board.placeShip('2,1', aShip, true,'right')
-	test("ship get hit by receiveAttack", () => {
+	test("ship get hit", () => {
 		expect(board.receiveAttack(atkCoord)).toStrictEqual(["Submarine", 1, false,[2,1]]);
+		expect(board.receiveAttack('2,2')).toStrictEqual(["Submarine", 2, false,[2,2]]); 
 	});
-	test("receiveAttack used location", () => {
+	test("repeat hit location", () => {
 		expect(board.receiveAttack(atkCoord)).toStrictEqual(
 			"Already shot there"
 		);
 	});
-	test("receiveAttack missed", () => {
+	test("missed hit", () => {
 		expect(board.receiveAttack('7,1')).toStrictEqual("Missed");
 	});
+	test('ship is sunk after all part been hit', () =>{
+		expect(board.receiveAttack('2,3')).toStrictEqual(["Submarine", 3, true,[2,3]]);
+	})
 });
-describe("ship is sunk", () =>{
-	const atkCoord = '2,1';
-	const right = board.getCoord(atkCoord,aShip).right
-	board.placeShip('2,1', aShip, true,'right')
-	let count = 1;
-	right.forEach(arr => {
-		test.only("ship sunk", () => {
-			if(count === aShip.length){
-				expect(board.receiveAttack(arr.join(','))).toStrictEqual(["Submarine", count, true,arr]);
-				count++
-			}
-			else{
-				expect(board.receiveAttack(arr.join(','))).toStrictEqual(["Submarine", count, false,arr]);
-				count++
-			}
-			
-		})
-	} )
-	;
-})
+
+
+	
+

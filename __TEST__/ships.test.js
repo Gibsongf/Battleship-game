@@ -1,7 +1,7 @@
 import { completeShip} from "../src/ships.js";
 
 const aShip = completeShip('Submarine');
-test('Increase of hit number',() => {
+test('Increase the ship hit number',() => {
     expect(aShip.hit()).toBe(1)
     expect(aShip.hit()).toBe(2)
     expect(aShip.hit()).toBe(3)
