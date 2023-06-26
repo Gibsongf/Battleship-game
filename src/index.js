@@ -3,108 +3,111 @@ import { player, machinePlayer } from "./player.js";
 import "./style.css";
 
 function pShip(elValue, remove, isClick) {
-	const inx = p1_info.myGame.shipsPlaced;
-	if (inx > 4) {
-		if (!canStart) {
-			infoUser("You can attack now");
-		}
-		canStart = true;
-		return;
-	}
-	const direction = ["right", "down", "left", "up"];
-	const i = document.querySelector(".rotate").value;
-	const move = p1_info.myGame.placeShip(
-		elValue,
-		p1_info.allShips[inx],
-		isClick,
-		direction[i]
-	);
-	if (isClick === true) {
-		if (p1_info.allShips[inx + 1] !== undefined) {
-			infoUser("Place your " + p1_info.allShips[inx + 1].name);
-		}
-		p1BoardDom.clickShipPlace(move);
-		return;
-	}
-	p1BoardDom.hoverGridEvents(move, remove, isClick);
+    const inx = p1_info.myGame.shipsPlaced;
+    if (inx > 4) {
+        if (!canStart) {
+            infoUser("You can attack now");
+        }
+        canStart = true;
+        return;
+    }
+    const direction = ["right", "down", "left", "up"];
+    const i = document.querySelector(".rotate").value;
+    const move = p1_info.myGame.placeShip(
+        elValue,
+        p1_info.allShips[inx],
+        isClick,
+        direction[i]
+    );
+    if (isClick === true) {
+        if (p1_info.allShips[inx + 1] !== undefined) {
+            infoUser("Place your " + p1_info.allShips[inx + 1].name);
+        }
+        p1BoardDom.clickShipPlace(move);
+        return;
+    }
+    p1BoardDom.hoverGridEvents(move, remove, isClick);
 }
 
 const clickPlaceShip = (r) => {
-	r.addEventListener("click", () => {
-		pShip(r.value, false, true);
-	});
+    r.addEventListener("click", () => {
+        pShip(r.value, false, true);
+    });
 };
 const addHover = (r) => {
-	r.addEventListener("mouseover", () => {
-		pShip(r.value, false);
-	});
+    r.addEventListener("mouseover", () => {
+        pShip(r.value, false);
+    });
 };
 const removeHover = (r) => {
-	r.addEventListener("mouseout", () => {
-		pShip(r.value, true);
-	});
+    r.addEventListener("mouseout", () => {
+        pShip(r.value, true);
+    });
 };
 
 function attackEvents(el, player, playerDom) {
-	if (typeof el === "object") {
-		el = el.value;
-	}
+    if (typeof el === "object") {
+        el = el.value;
+    }
 
-	const coord = player.myGame.formatCoordinates(el);
-	let response = player.myGame.receiveAttack(el);
-	if (Array.isArray(response)) {
-		playerDom.hitEvent(coord);
-		player.turn = true;
-		if (player.myGame.allShipSunk(player) === true) {
-			return "End game";
-		}
-	}
-	if (response === "Missed") {
-		playerDom.missedEvent(coord);
-		player.turn = true;
-	}
-	if (response === "Already shot there") {
-		return "again";
-	}
+    const coord = player.myGame.formatCoordinates(el);
+    let response = player.myGame.receiveAttack(el);
+    if (Array.isArray(response)) {
+        playerDom.hitEvent(coord);
+        player.turn = true;
+        if (player.myGame.allShipSunk(player) === true) {
+            return "End game";
+        }
+    }
+    if (response === "Missed") {
+        playerDom.missedEvent(coord);
+        player.turn = true;
+    }
+    if (response === "Already shot there") {
+        return "again";
+    }
 }
 function removeClickAtk() {
-	p2BoardDom.allRows.forEach((arr) =>
-		arr.forEach((r) => r.removeEventListener("click", mainLoop))
-	);
+    p2BoardDom.allRows.forEach((arr) =>
+        arr.forEach((r) => r.removeEventListener("click", mainLoop))
+    );
 }
 function machineLoop() {
-	const str = p2_info.randCoord().join(",");
-	const anw = attackEvents(str, p1_info, p1BoardDom);
-	if (anw === "again") {
-		machineLoop();
-	}
-	if (anw === "End game") {
-		removeClickAtk();
-		infoUser("You lose!");
-	}
-	p2_info.turn = false;
+    const str = p2_info.randCoord().join(",");
+    const anw = attackEvents(str, p1_info, p1BoardDom);
+    if (anw === "again") {
+        machineLoop();
+    }
+    if (anw === "End game") {
+        removeClickAtk();
+        infoUser("You lose!");
+    }
+    p2_info.turn = false;
 }
 function mainLoop() {
-	if (canStart === true) {
-		if (p1_info.turn === true) {
-			const anw = attackEvents(this.value, p2_info, p2BoardDom);
-			if (anw === "End game") {
-				removeClickAtk();
-				infoUser("You Won!");
-			}
-			if (anw !== "again") {
-				p1_info.turn = false;
-			}
-		}
-		if (p2_info.turn === true) {
-			machineLoop();
-		}
-	}
+    if (canStart === true) {
+        if (p1_info.turn === true) {
+            const anw = attackEvents(this.value, p2_info, p2BoardDom);
+            if (anw === "End game") {
+                removeClickAtk();
+                infoUser("You Won!");
+            }
+            if (anw !== "again") {
+                p1_info.turn = false;
+            }
+        }
+        if (p2_info.turn === true) {
+            machineLoop();
+        }
+    }
 }
 function startGameByClickEv() {
-	p2BoardDom.allRows.forEach((arr) =>
-		arr.forEach((r) => r.addEventListener("click", mainLoop))
-	);
+    p2BoardDom.allRows.forEach((arr) =>
+        arr.forEach((r) => {
+            r.id = "opponent-grid";
+            r.addEventListener("click", mainLoop);
+        })
+    );
 }
 
 const p1_info = player();
@@ -116,12 +119,12 @@ let canStart = false;
 
 btnRotateEvent();
 p1BoardDom.allRows.forEach((arr) => {
-	arr.forEach((r) => {
-		infoUser("Place your " + p1_info.allShips[0].name);
-		addHover(r);
-		removeHover(r);
-		clickPlaceShip(r);
-	});
+    arr.forEach((r) => {
+        infoUser("Place your " + p1_info.allShips[0].name);
+        addHover(r);
+        removeHover(r);
+        clickPlaceShip(r);
+    });
 });
 p1_info.turn = true;
 startGameByClickEv();

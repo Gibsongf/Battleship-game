@@ -3,6 +3,17 @@
     margin: 0;
 }
 
+#content {
+    background-image: url('./img/ocean.jpg');
+    background-size: cover;
+    min-height: 100vh;
+}
+
+.board-container {
+    background-color: #ffffff99;
+
+}
+
 .boards,
 .header,
 .index-column {
@@ -37,6 +48,7 @@
 
 
 
+
 .row {
     display: flex;
 }
@@ -49,12 +61,15 @@
     border: 1px rgb(0, 0, 0) solid;
 
 }
-#hovered{
+
+#hovered {
     background-color: black;
 }
-#ship-placed{
+
+#ship-placed {
     background-color: red;
 }
+
 .index-column,
 .index-row {
     background-color: black;
@@ -65,7 +80,28 @@
 .hit-icon {
     opacity: 0.7;
 }
-#missed-shot{
+
+#missed-shot {
     background-color: grey;
     border-color: red;
+}
+
+.rotate {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: white;
+    font-size: 25px;
+}
+
+.rotate-svg {
+    fill: white;
+}
+
+.inform-user {
+    color: white;
+}
+
+#opponent-grid:hover {
+    background-color: grey;
 }
