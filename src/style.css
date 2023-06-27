@@ -6,7 +6,7 @@
 #content {
     background-image: url('./img/ocean.jpg');
     background-size: cover;
-    min-height: 100vh;
+    /* min-height: 100vh; */
 }
 
 .board-container {
@@ -46,7 +46,9 @@
 
 }
 
-
+.all-col-index {
+    justify-content: flex-end;
+}
 
 
 .row {
@@ -70,11 +72,16 @@
     background-color: red;
 }
 
-.index-column,
 .index-row {
     background-color: black;
     color: rgb(251, 242, 242);
-    border: 2px rgb(0, 0, 0) solid;
+    border-bottom: 1px grey solid;
+}
+
+.index-column {
+    background-color: black;
+    color: rgb(251, 242, 242);
+    border-left: 1px grey solid;
 }
 
 .hit-icon {
