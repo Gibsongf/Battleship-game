@@ -1,4 +1,4 @@
-import hitX from "/src/img/hitX.png";
+import hitX from "../src/img/hitX.png";
 
 function createSimpleEl(type, selector_name, innerContent, appendTo) {
     const ell = document.createElement(type);
