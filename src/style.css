@@ -5,12 +5,12 @@
 
 #content {
     background-image: url('./img/ocean.jpg');
-    background-size: cover;
-    /* min-height: 100vh; */
+    /* background-size: cover; */
+    min-height: 100vh;
 }
 
 .board-container {
-    background-color: #ffffff99;
+    background-color: #ffffffc7;
 
 }
 
@@ -107,6 +107,8 @@
 
 .inform-user {
     color: white;
+    font-size: 2em;
+
 }
 
 #opponent-grid:hover {
