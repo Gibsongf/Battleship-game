@@ -11,12 +11,7 @@ function createSimpleEl(type, selector_name, innerContent, appendTo) {
     }
     return ell;
 }
-// function createImg() {
-//     const iconHit = new Image();
-//     iconHit.src = hitX;
-//     iconHit.className = "hit-icon";
-//     return iconHit;
-// }
+
 function btnRotateEvent() {
     const rotate = document.querySelector(".rotate");
     rotate.addEventListener("click", () => {
