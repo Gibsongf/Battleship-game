@@ -11,6 +11,11 @@
 
 .board-container {
     background-color: #ffffffc7;
+    max-width: 60vw;
+}
+
+.game-logo {
+    max-width: 60vw;
 
 }
 
@@ -21,6 +26,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.boards {
+    max-width: fit-content;
 }
 
 .header {
@@ -34,7 +43,12 @@
 .gameboards {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 100px;
+}
+
+.info {
+    color: white;
 }
 
 .all-col-index,
