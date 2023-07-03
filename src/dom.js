@@ -11,12 +11,12 @@ function createSimpleEl(type, selector_name, innerContent, appendTo) {
     }
     return ell;
 }
-function createImg() {
-    const iconHit = new Image();
-    iconHit.src = hitX;
-    iconHit.className = "hit-icon";
-    return iconHit;
-}
+// function createImg() {
+//     const iconHit = new Image();
+//     iconHit.src = hitX;
+//     iconHit.className = "hit-icon";
+//     return iconHit;
+// }
 function btnRotateEvent() {
     const rotate = document.querySelector(".rotate");
     rotate.addEventListener("click", () => {
@@ -36,8 +36,10 @@ function DomBoard(player1) {
     return { hitEvent, missedEvent, hoverGridEvents, allRows, clickShipPlace };
 
     function hitEvent(arr) {
-        const img = createImg();
-        allRows[arr[0]][arr[1]].appendChild(img);
+        allRows[arr[0]][arr[1]].setAttribute(
+            "style",
+            `background-image: url(${hitX})`
+        );
     }
     function missedEvent(arr) {
         allRows[arr[0]][arr[1]].setAttribute("id", "missed-shot");
