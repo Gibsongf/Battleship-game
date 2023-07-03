@@ -74,6 +74,14 @@
     border: 1px rgb(0, 0, 0) solid;
 }
 
+.rotate {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: white;
+    font-size: 25px;
+}
+
 @media (max-width: 1500px) {
 
     .grid,
@@ -82,6 +90,11 @@
         width: 40px;
         height: 40px;
         border: 1px rgb(0, 0, 0) solid;
+    }
+
+    .rotate {
+        font-size: 15px;
+
     }
 }
 
@@ -113,22 +126,13 @@
     border-left: 1px grey solid;
 }
 
-/* .hit-icon {
-    opacity: 0.7;
-} */
 
 #missed-shot {
     background-color: grey;
     border-color: red;
 }
 
-.rotate {
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: white;
-    font-size: 25px;
-}
+
 
 .rotate-svg {
     fill: white;
