@@ -7,9 +7,9 @@ This project implements the classic game Battleship using the Test Driven Develo
 
 Dependencies
 
-The Battleship project relies on the following dependencies:
-JavaScript
-Node.js
-Jest (Testing framework)
+The Battleship project relies on the following dependencies:<br>
+JavaScript<br>
+Node.js<br>
+Jest (Testing framework)<br>
 
    
